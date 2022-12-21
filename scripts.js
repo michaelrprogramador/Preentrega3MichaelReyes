@@ -29,7 +29,8 @@ function addItemCarrito(newItem){
         if (carrito[i].title.trim()=== newItem.title.trim()){
             carrito[i].cantidad ++;
             const inputValue = InputElemento[i] 
-              imputValue.value++;
+        imputValue.value++;
+        CarritoTotal()
 return null; }
     }
     
@@ -54,8 +55,30 @@ function renderCarrito(){
                         <button class="delete btn btn-danger">X</button>
                     </td>`
                     tr.innerHTML = Content;
-                    tbody.appendChild(tr)
+tbody.append(tr)
+
+tr.querySelector(".delete").addEventListener('click', removeItemCarrito)
     })
+    CarritoTotal()
 }
+
+
+function CarritoTotal(){
+    let Total = 0;
+    const itemCartTotal = document.querySelector('.itemCartTotal')
+    carrito.forEach((item) => {
+      const precio = Number(item.precio.replace("$", ''))
+    Total = Total + precio*item.cantidad
+    })
+  
+    itemCartTotal.innerHTML = `Total $${Total}`
+    addLocalStorage()
+}
+
+
+function removeItemCarrito()
+
+
+
 
 
