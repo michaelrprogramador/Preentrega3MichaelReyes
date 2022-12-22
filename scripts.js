@@ -24,18 +24,27 @@ function addToCarritoItem(e){
 }
 
 function addItemCarrito(newItem){
+
+    const alert = document.querySelector('.alert')
+
+setTimeout(function(){
+    alert.classList.add('hide')
+}, 2000)
+alert.classList.remove('hide')
+
+
     const InputElemento = tbody.getElementsByClassName('input__elemento')
     for(let i =0; i < carrito.length ; i++){
         if (carrito[i].title.trim()=== newItem.title.trim()){
             carrito[i].cantidad ++;
             const inputValue = InputElemento[i] 
-        imputValue.value++;
-        CarritoTotal()
-return null; }
-    }
-    
+            inputValue.value++;
+            CarritoTotal()
+            return null; 
+        }
+    }    
     carrito.push(newItem)
-    renderCarrito()
+    renderCarrito();
 }
 
 function renderCarrito(){
@@ -55,9 +64,10 @@ function renderCarrito(){
                         <button class="delete btn btn-danger">X</button>
                     </td>`
                     tr.innerHTML = Content;
-tbody.append(tr)
+        tbody.append(tr)
 
-tr.querySelector(".delete").addEventListener('click', removeItemCarrito)
+        tr.querySelector(".delete").addEventListener('click', removeItemCarrito)
+        tr.querySelector(".input__elemento").addEventListener('change', sumaCantidad)
     })
     CarritoTotal()
 }
@@ -65,18 +75,64 @@ tr.querySelector(".delete").addEventListener('click', removeItemCarrito)
 
 function CarritoTotal(){
     let Total = 0;
-    const itemCartTotal = document.querySelector('.itemCartTotal')
+    const itemCartTotal = document.querySelector('.itemCartTotal');
     carrito.forEach((item) => {
-      const precio = Number(item.precio.replace("$", ''))
-    Total = Total + precio*item.cantidad
+        const precio = Number(item.precio.replace("$", ''));
+        Total = Total + precio*item.cantidad;
     })
-  
+
     itemCartTotal.innerHTML = `Total $${Total}`
     addLocalStorage()
 }
 
 
-function removeItemCarrito()
+function removeItemCarrito(e){
+    const buttonDelete = e.target
+    const tr = buttonDelete.closest(".ItemCarrito")
+    const title = tr.querySelector('.title').textContent;
+    for(let i=0; i<carrito.length ; i++){
+        if(carrito[i].title.trim() === title.trim()){
+            carrito.splice(i, 1)    
+        }
+    }
+    const alert = document.querySelector('.remove')
+
+    setTimeout(function(){
+        alert.classList.add('remove')
+    }, 2000)
+    alert.classList.remove('remove')
+
+
+    tr.remove()
+    CarritoTotal()
+}
+
+
+function sumaCantidad(e){
+    const sumaInput = e.target
+    const tr = sumaInput.closest(".ItemCarrito")
+    const title = tr.querySelector('.title').textContent;
+    carrito.forEach(item => {
+        if (item.title.trim() === title){
+            sumaInput.value < 1 ? (sumaInput.value = 1) : sumaInput.value;
+            item.cantidad = sumaInput.value;
+            CarritoTotal
+        }
+    })
+    console.log(carrito)
+}
+
+function addLocalStorage(){
+    localStorage.setItem('carrito', JSON.stringify(carrito))
+}
+
+window.onload = function(){
+    const storage = JSON.parse(localStorage.getItem('carrito'));
+    if (storage){
+        carrito = storage;
+        renderCarrito()
+    }
+}
 
 
 
