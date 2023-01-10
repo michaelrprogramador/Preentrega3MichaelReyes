@@ -24,13 +24,16 @@ function addToCarritoItem(e){
 }
 
 function addItemCarrito(newItem){
-
+    debugger;
+    carrito.push(newItem);
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+        
     const alert = document.querySelector('.alert')
 
-setTimeout(function(){
-    alert.classList.add('hide')
-}, 2000)
-alert.classList.remove('hide')
+    setTimeout(function(){
+        alert.classList.add('hide')
+    }, 2000)
+    alert.classList.remove('hide')
 
 
     const InputElemento = tbody.getElementsByClassName('input__elemento')
@@ -48,10 +51,10 @@ alert.classList.remove('hide')
 }
 
 function renderCarrito(){
-    tbody.innerHTML = ''
+    tbody.innerHTML = '';
     carrito.map(item => {
-        const tr = document.createElement('tr')
-        tr.classList.add('ItemCarrito')
+        const tr = document.createElement('tr');
+        tr.classList.add('ItemCarrito');
         const Content = `
         <th scope="row">1</th>
                     <td class="table__productos">
@@ -64,12 +67,14 @@ function renderCarrito(){
                         <button class="delete btn btn-danger">X</button>
                     </td>`
                     tr.innerHTML = Content;
-        tbody.append(tr)
-
-        tr.querySelector(".delete").addEventListener('click', removeItemCarrito)
-        tr.querySelector(".input__elemento").addEventListener('change', sumaCantidad)
-    })
-    CarritoTotal()
+        tbody.append(tr);
+        
+        tr.querySelector(".delete").addEventListener('click', removeItemCarrito);
+        tr.querySelector(".input__elemento").addEventListener('change', sumaCantidad);
+        
+    });
+    CarritoTotal();
+    carrito = JSON.parse(localStorage.getItem('carrito'));
 }
 
 
@@ -81,8 +86,8 @@ function CarritoTotal(){
         Total = Total + precio*item.cantidad;
     })
 
-    itemCartTotal.innerHTML = `Total $${Total}`
-    addLocalStorage()
+    itemCartTotal.innerHTML = `Total $${Total}`;
+    addLocalStorage();
 }
 
 
@@ -95,16 +100,16 @@ function removeItemCarrito(e){
             carrito.splice(i, 1)    
         }
     }
-    const alert = document.querySelector('.remove')
+    const alert = document.querySelector('.remove');
 
     setTimeout(function(){
         alert.classList.add('remove')
-    }, 2000)
-    alert.classList.remove('remove')
+    }, 2000);
+    alert.classList.remove('remove');
 
 
-    tr.remove()
-    CarritoTotal()
+    tr.remove();
+    CarritoTotal();
 }
 
 
