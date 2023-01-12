@@ -1,5 +1,6 @@
 const Clickbutton = document.querySelectorAll('.button')
 const tbody = document.querySelector('.tbody')
+const alert = document.querySelector('.alert');
 let  carrito = []
 
 Clickbutton.forEach(btn => {
@@ -23,8 +24,8 @@ function addToCarritoItem(e){
     addItemCarrito(newItem)
 }
 
+
 function addItemCarrito(newItem){
-    debugger;
     carrito.push(newItem);
     localStorage.setItem('carrito', JSON.stringify(carrito));
         
